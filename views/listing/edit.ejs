@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Listing</title>
+</head>
+<body style="background: #f7f7fa; font-family: 'Segoe UI', Arial, sans-serif; margin: 0;">
+    <div style="max-width: 480px; margin: 40px auto; background: #fff; border-radius: 16px; box-shadow: 0 4px 24px rgba(0,0,0,0.08); padding: 32px;">
+        <h1 style="text-align:center; color:#333; margin-bottom: 32px; font-weight:600;">Edit Listing</h1>
+        <form action="/listing/<%= info._id %>?_method=PATCH" method="post">
+            <label style="display:block; margin-bottom:10px; color:#555; font-weight:500;">Title</label>
+            <input type="text" value="<%= info.title %>" name="listing[title]" style="width:100%; padding:10px 14px; border:1px solid #ddd; border-radius:8px; margin-bottom:18px; font-size:16px;">
+
+            <label style="display:block; margin-bottom:10px; color:#555; font-weight:500;">Image</label>
+            <input type="text" value="<%= info.url %>" name="listing[url]" style="width:100%; padding:10px 14px; border:1px solid #ddd; border-radius:8px; margin-bottom:18px; font-size:16px;">
+
+            <label style="display:block; margin-bottom:10px; color:#555; font-weight:500;">Description</label>
+            <textarea name="listing[description]" style="width:100%; padding:10px 14px; border:1px solid #ddd; border-radius:8px; margin-bottom:18px; font-size:16px; min-height:80px;"><%= info.description %></textarea>
+
+            <label style="display:block; margin-bottom:10px; color:#555; font-weight:500;">Price</label>
+            <input type="number" value="<%= info.price %>" name="listing[price]" style="width:100%; padding:10px 14px; border:1px solid #ddd; border-radius:8px; margin-bottom:18px; font-size:16px;">
+
+            <label style="display:block; margin-bottom:10px; color:#555; font-weight:500;">Location</label>
+            <input type="text" value="<%= info.location %>" name="listing[location]" style="width:100%; padding:10px 14px; border:1px solid #ddd; border-radius:8px; margin-bottom:18px; font-size:16px;">
+
+            <label style="display:block; margin-bottom:10px; color:#555; font-weight:500;">Country</label>
+            <input type="text" value="<%= info.country %>" name="listing[country]" style="width:100%; padding:10px 14px; border:1px solid #ddd; border-radius:8px; margin-bottom:24px; font-size:16px;">
+
+            <button style="width:100%; background:#ff385c; color:#fff; border:none; border-radius:8px; padding:12px 0; font-size:18px; font-weight:600; cursor:pointer; box-shadow:0 2px 8px rgba(255,56,92,0.08); transition:background 0.2s;">
+                Save Changes
+            </button>
+        </form>
+    </div>
+</body>
+</html>

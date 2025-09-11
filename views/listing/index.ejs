@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>All Listings</title>
+    <style>
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px 32px;
+        background-color: #fff;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      }
+
+      .navbar .logo {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .navbar .logo img {
+        height: 32px;
+      }
+
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 32px;
+      }
+
+      .nav-item {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        position: relative;
+        font-size: 14px;
+        color: #333;
+        cursor: pointer;
+      }
+
+      .nav-item .new-badge {
+        position: absolute;
+        top: -8px;
+        right: -14px;
+        background-color: #0048ff;
+        color: white;
+        font-size: 10px;
+        padding: 2px 6px;
+        border-radius: 12px;
+        font-weight: bold;
+      }
+
+      .search-bar {
+        display: flex;
+        align-items: center;
+        background-color: white;
+        border-radius: 40px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        padding: 10px 16px;
+        margin: 20px auto;
+        width: fit-content;
+      }
+
+      .search-section {
+        padding: 0 16px;
+        border-right: 1px solid #ddd;
+      }
+
+      .search-section:last-child {
+        border-right: none;
+      }
+
+      .search-section strong {
+        display: block;
+        font-size: 13px;
+        color: #222;
+      }
+
+      .search-section span {
+        font-size: 13px;
+        color: #717171;
+      }
+
+      .search-icon {
+        background-color: #ff385c;
+        color: white;
+        padding: 10px;
+        border-radius: 50%;
+        margin-left: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+      }
+
+      .right-icons {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+
+      .icon-button {
+        width: 32px;
+        height: 32px;
+        background-color: #f2f2f2;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .nav-links {
+          display: none;
+        }
+
+        .search-bar {
+          flex-direction: column;
+          gap: 10px;
+        }
+
+        .search-section {
+          border-right: none;
+          border-bottom: 1px solid #eee;
+          padding: 8px 0;
+        }
+
+        .search-section:last-child {
+          border-bottom: none;
+        }
+      }
+    </style>
+    <style>
+      * {
+        margin: 0%;
+        padding: 0%;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: Arial, sans-serif;
+        background: #f5f5f5;
+      }
+
+      .card {
+        background: white;
+        border-radius: 16px;
+        overflow: hidden;
+        width: 250px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        position: relative;
+      }
+
+      .card img {
+        width: 100%;
+        height: 170px;
+        object-fit: cover;
+      }
+
+      .badge {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        background: white;
+        color: #333;
+        padding: 4px 10px;
+        border-radius: 12px;
+        font-size: 12px;
+        font-weight: bold;
+      }
+
+      .heart {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: white;
+        border-radius: 50%;
+        width: 28px;
+        height: 28px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        color: #333;
+      }
+
+      .card-content {
+        padding: 12px 14px;
+      }
+
+      .location {
+        font-weight: bold;
+        font-size: 16px;
+        margin-bottom: 6px;
+      }
+
+      .price {
+        color: #333;
+        font-size: 14px;
+      }
+
+      .price .star {
+        color: black;
+        margin-left: 6px;
+      }
+    </style>
+  </head>
+  <body>
+    <% if(success && success.length) {%> 
+    <p style="background-color: lightgreen; color: darkgreen; text-align: center;padding: 15px;" id="toast">
+      <%= success %>
+    </p>
+    <% } %>
+
+    <script>
+      setTimeout(() => {
+        document.getElementById("toast").style.display = 'none'
+      }, 2000);
+    </script>
+
+    <!-- <p style="background-color: red;color: #fff;text-align: center;"></p> -->
+    <nav>
+      <div class="navbar">
+        <!-- Logo -->
+        <div class="logo">
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/6/69/Airbnb_Logo_Bélo.svg"
+            alt="Airbnb Logo"
+          />
+        </div>
+
+        <!-- Navigation -->
+        <div class="nav-links">
+          <div class="nav-item">
+            <!-- <img src="https://cdn-icons-png.flaticon.com/512/69/69524.png" width="24" /> -->
+            <span>Homes</span>
+          </div>
+          <div class="nav-item">
+            <!-- <img src="https://cdn-icons-png.flaticon.com/512/69/69524.png" width="24" /> -->
+            <span>Experiences</span>
+            <!-- <div class="new-badge">NEW</div> -->
+          </div>
+          <div class="nav-item">
+            <!-- <img src="https://cdn-icons-png.flaticon.com/512/69/69524.png" width="24" />/ -->
+            <span>Services</span>
+            <!-- <div class="new-badge">NEW</div> -->
+          </div>
+        </div>
+
+        <!-- Right icons -->
+        <a href="/listing/new" style="text-decoration: none">
+          <div class="right-icons">
+            <span style="font-size: 14px">Become a host</span>
+            <div class="icon-button">🌐</div>
+            <div class="icon-button">☰</div>
+          </div>
+        </a>
+      </div>
+
+      <!-- Search Bar -->
+      <div class="search-bar">
+        <div class="search-section">
+          <strong>Where</strong>
+          <span>Search destinations</span>
+        </div>
+        <div class="search-section">
+          <strong>Check in</strong>
+          <span>Add dates</span>
+        </div>
+        <div class="search-section">
+          <strong>Check out</strong>
+          <span>Add dates</span>
+        </div>
+        <div class="search-section">
+          <strong>Who</strong>
+          <span>Add guests</span>
+        </div>
+        <div class="search-icon">🔍</div>
+      </div>
+    </nav>
+
+    <ul
+      class="card-list"
+      style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center"
+    >
+      <% for (const i of allListing) { %>
+      <a
+        class="card"
+        href="/listing/<%= i._id %>"
+        style="text-decoration: none; color: #222"
+      >
+        <img src="<%= i.url %>" alt="Home in Betalbatim" />
+        <div class="badge">Guest Favourite</div>
+        <div class="heart">♡</div>
+        <div class="card-content">
+          <div class="location"><%= i.title %></div>
+          <div class="price">
+            ₹<%= i.price %> for 2 nights <span class="star">★ 5.0</span>
+          </div>
+        </div>
+      </a>
+      <% } %>
+    </ul>
+  </body>
+</html>

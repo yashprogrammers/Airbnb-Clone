@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Listing Details</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <style>
+      body {
+        font-family: 'Segoe UI', sans-serif;
+        background-color: #fdfdfd;
+        color: #222;
+        margin: 0;
+        padding: 0;
+      }
+
+      .container {
+        max-width: 1000px;
+        margin: 40px auto;
+        padding: 40px 24px;
+        background-color: #fff;
+        border-radius: 12px;
+        border: 1px solid #eaeaea;
+      }
+
+      h1 {
+        font-size: 1.8rem;
+        margin-bottom: 20px;
+        font-weight: 600;
+      }
+
+      .listing-grid {
+        /* display: grid; */
+        /* grid-template-columns: 1fr 1fr; */
+        gap: 40px;
+        margin-bottom: 40px;
+      }
+
+      .listing-grid img {
+        width: 100%;
+        height: 400px;
+        border-radius: 10px;
+        object-fit: cover;
+      }
+
+      .info-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .info-list li {
+        margin-bottom: 12px;
+        font-size: 1rem;
+        color: #444;
+      }
+
+      .info-list strong {
+        font-weight: 500;
+      }
+
+      .actions {
+        display: flex;
+        gap: 12px;
+        margin-top: 24px;
+      }
+
+      .actions button {
+        padding: 8px 20px;
+        font-size: 0.95rem;
+        border: 1px solid transparent;
+        border-radius: 6px;
+        transition: all 0.2s ease-in-out;
+        font-weight: 500;
+      }
+
+      .btn-edit {
+        background-color: #f5f5f5;
+        color: #222;
+      }
+
+      .btn-edit:hover {
+        background-color: #eaeaea;
+      }
+
+      .btn-delete {
+        background-color: #fff;
+        color: #d9534f;
+        border: 1px solid #d9534f;
+      }
+
+      .btn-delete:hover {
+        background-color: #d9534f;
+        color: white;
+      }
+
+      hr {
+        margin: 50px 0;
+        border: none;
+        border-top: 1px solid #e0e0e0;
+      }
+
+      .review-section {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 40px;
+      }
+
+      .form-control, .form-range {
+        border-radius: 6px;
+        border: 1px solid #ddd;
+      }
+
+      .form-control:focus, .form-range:focus {
+        border-color: #bbb;
+        box-shadow: none;
+      }
+
+      textarea {
+        resize: vertical;
+      }
+
+      .submit-btn {
+        background-color: #222;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 6px;
+        margin-top: 16px;
+        font-size: 0.95rem;
+        font-weight: 500;
+      }
+
+      .submit-btn:hover {
+        background-color: #444;
+      }
+
+      .review-list ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .review-list li {
+        background-color: #fafafa;
+        border: 1px solid #eaeaea;
+        border-radius: 8px;
+        padding: 16px;
+        margin-bottom: 16px;
+        position: relative;
+      }
+
+      .review-list b {
+        color: #666;
+        font-size: 0.9rem;
+        margin-left: 8px;
+      }
+
+      .review-list form {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+      }
+
+      .review-list button {
+        background-color: transparent;
+        color: #d9534f;
+        border: none;
+        font-size: 0.85rem;
+        cursor: pointer;
+      }
+
+      .review-list button:hover {
+        text-decoration: underline;
+      }
+
+      @media (max-width: 768px) {
+        .listing-grid,
+        .review-section {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Listing Info -->
+      <div class="listing-grid">
+        <div>
+          <h1><%= info.title %></h1>
+          <img src="<%= info.url %>" alt="Listing Image" />
+        </div>
+        <div>
+          <ul class="info-list">
+            <li><strong>Description:</strong> <%= info.description %></li>
+            <li><strong>Price:</strong> $<%= info.price %></li>
+            <li><strong>Location:</strong> <%= info.location %></li>
+            <li><strong>Country:</strong> <%= info.country %></li>
+          </ul>
+
+          <div class="actions">
+            <form action="/listing/<%= info._id %>/edit" method="get">
+              <button class="btn-edit" type="submit">Edit</button>
+            </form>
+            <form
+              action="/listing/<%= info._id %>?_method=DELETE"
+              method="post"
+            >
+              <button class="btn-delete" type="submit">Delete</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <hr />
+
+      <!-- Review Section -->
+      <div class="review-section">
+        <!-- Write Review -->
+        <div>
+          <h1>Write a Review</h1>
+          <form
+            method="post"
+            action="/listing/<%= info.id %>/review"
+            class="needs-validation"
+            novalidate
+          >
+            <div class="mb-3">
+              <label for="rating" class="form-label">Rating</label>
+              <input
+                type="range"
+                min="1"
+                max="5"
+                name="review[rating]"
+                id="rating"
+                class="form-range"
+              />
+            </div>
+            <div class="mb-3">
+              <label for="comment" class="form-label">Comment</label>
+              <textarea
+                name="review[comment]"
+                id="comment"
+                class="form-control"
+                rows="5"
+                required
+              ></textarea>
+              <div class="invalid-feedback">Please enter a comment.</div>
+            </div>
+            <button type="submit" class="submit-btn">Submit</button>
+          </form>
+        </div>
+
+        <!-- All Reviews -->
+        <div class="review-list">
+          <h1>All Reviews</h1>
+          <ul>
+            <% for (review of info.review) { %>
+              <li>
+                <span><%= review.comment %></span>
+                <b><%= review.rating %> Stars</b>
+                <form action="/listing/<%= info._id %>/review/<%= review._id %>?_method=DELETE" method="post">
+                  <button type="submit">Delete</button>
+                </form>
+              </li>
+            <% } %>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" defer></script>
+
+    <!-- Validation -->
+    <script>
+      (() => {
+        "use strict";
+        const forms = document.querySelectorAll(".needs-validation");
+        Array.from(forms).forEach((form) => {
+          form.addEventListener("submit", (event) => {
+            if (!form.checkValidity()) {
+              event.preventDefault();
+              event.stopPropagation();
+            }
+            form.classList.add("was-validated");
+          }, false);
+        });
+      })();
+    </script>
+  </body>
+</html>
