@@ -12,8 +12,13 @@ router.post("/signup", async (req, res) => {
     const signupInfo = new User({username, email})
     let user = await User.register(signupInfo, password)
     console.log(user);
-    req.flash("success", "sighup Successfully!")
-    res.redirect("/listing")
+    req.login(user, (err) => {
+        if(err) {
+            return next(err)
+        }
+        req.flash("success", "sighup Successfully!")
+        res.redirect("/listing")
+    })
 })
 
 router.get("/login", (req, res) => {
@@ -25,4 +30,13 @@ router.post("/login", passport.authenticate("local", {failureRedirect: "/login",
     res.redirect("/listing")
 })
 
+router.get("/logout",(req, res, next) => {
+    req.logout((err) => {
+        if(err) {
+            return next(err)
+        }
+        req.flash("success", "you are logged out!")
+        res.redirect("/listing")
+    })
+})
 module.exports = router

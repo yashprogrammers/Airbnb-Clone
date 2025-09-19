@@ -56,6 +56,7 @@ passport.deserializeUser(User.deserializeUser());
 
 app.use((req, res, next) => {
   res.locals.success = req.flash("success")
+  res.locals.currUser = req.user;
   next()
 })
 
@@ -99,6 +100,8 @@ app.use("/", userRoute);
 
 app.use((err, req, res, next) => {
   let { status = 404, message } = err;
+  console.log(err);
+  
   res.status(status).render("error.ejs", { message })
   // next(new ExpressError(404, "Page Not Found"));
 })

@@ -209,15 +209,23 @@
     </style>
   </head>
   <body>
-    <% if(success && success.length) {%> 
-    <p style="background-color: lightgreen; color: darkgreen; text-align: center;padding: 15px;" id="toast">
+    <% if(success && success.length) {%>
+    <p
+      style="
+        background-color: lightgreen;
+        color: darkgreen;
+        text-align: center;
+        padding: 15px;
+      "
+      id="toast"
+    >
       <%= success %>
     </p>
     <% } %>
 
     <script>
       setTimeout(() => {
-        document.getElementById("toast").style.display = 'none'
+        document.getElementById("toast").style.display = "none";
       }, 2000);
     </script>
 
@@ -226,28 +234,29 @@
       <div class="navbar">
         <!-- Logo -->
         <div class="logo">
-          <img
-            src="https://upload.wikimedia.org/wikipedia/commons/6/69/Airbnb_Logo_Bélo.svg"
-            alt="Airbnb Logo"
-          />
+          <h2 style="color: green;">QuickRent</h2>
         </div>
 
         <!-- Navigation -->
         <div class="nav-links">
-          <div class="nav-item">
+          <% if(!currUser) { %>
+          <a href="/signup" class="nav-item">
             <!-- <img src="https://cdn-icons-png.flaticon.com/512/69/69524.png" width="24" /> -->
-            <span>Homes</span>
-          </div>
-          <div class="nav-item">
+            <span>Sigh Up</span>
+          </a>
+          <a href="/login" class="nav-item">
             <!-- <img src="https://cdn-icons-png.flaticon.com/512/69/69524.png" width="24" /> -->
-            <span>Experiences</span>
+            <span>Log In!</span>
             <!-- <div class="new-badge">NEW</div> -->
-          </div>
-          <div class="nav-item">
+          </a>
+          <% } %>
+          <% if(currUser) { %> 
+          <a href="/logout" class="nav-item">
             <!-- <img src="https://cdn-icons-png.flaticon.com/512/69/69524.png" width="24" />/ -->
-            <span>Services</span>
+            <span>Log Out!</span>
             <!-- <div class="new-badge">NEW</div> -->
-          </div>
+          </a>
+          <% } %>
         </div>
 
         <!-- Right icons -->

@@ -191,6 +191,7 @@
           <img src="<%= info.url %>" alt="Listing Image" />
         </div>
         <div>
+          <h1><%= info.owner.username %></h1>
           <ul class="info-list">
             <li><strong>Description:</strong> <%= info.description %></li>
             <li><strong>Price:</strong> $<%= info.price %></li>
@@ -198,7 +199,8 @@
             <li><strong>Country:</strong> <%= info.country %></li>
           </ul>
 
-          <div class="actions">
+          <% if(currUser && info.owner._id.equals(currUser._id)) { %> 
+            <div class="actions">
             <form action="/listing/<%= info._id %>/edit" method="get">
               <button class="btn-edit" type="submit">Edit</button>
             </form>
@@ -209,6 +211,7 @@
               <button class="btn-delete" type="submit">Delete</button>
             </form>
           </div>
+          <% } %>
         </div>
       </div>
 
@@ -219,7 +222,8 @@
         <!-- Write Review -->
         <div>
           <h1>Write a Review</h1>
-          <form
+          <% if(currUser) {%>
+            <form
             method="post"
             action="/listing/<%= info.id %>/review"
             class="needs-validation"
@@ -249,6 +253,7 @@
             </div>
             <button type="submit" class="submit-btn">Submit</button>
           </form>
+          <% } %>
         </div>
 
         <!-- All Reviews -->
@@ -257,6 +262,7 @@
           <ul>
             <% for (review of info.review) { %>
               <li>
+                <h3><%= review.author.username %></h3>
                 <span><%= review.comment %></span>
                 <b><%= review.rating %> Stars</b>
                 <form action="/listing/<%= info._id %>/review/<%= review._id %>?_method=DELETE" method="post">
