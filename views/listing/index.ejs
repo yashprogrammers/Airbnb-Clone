@@ -209,66 +209,7 @@
     </style>
   </head>
   <body>
-    <% if(success && success.length) {%>
-    <p
-      style="
-        background-color: lightgreen;
-        color: darkgreen;
-        text-align: center;
-        padding: 15px;
-      "
-      id="toast"
-    >
-      <%= success %>
-    </p>
-    <% } %>
-
-    <script>
-      setTimeout(() => {
-        document.getElementById("toast").style.display = "none";
-      }, 2000);
-    </script>
-
-    <!-- <p style="background-color: red;color: #fff;text-align: center;"></p> -->
-    <nav>
-      <div class="navbar">
-        <!-- Logo -->
-        <div class="logo">
-          <h2 style="color: green;">QuickRent</h2>
-        </div>
-
-        <!-- Navigation -->
-        <div class="nav-links">
-          <% if(!currUser) { %>
-          <a href="/signup" class="nav-item">
-            <!-- <img src="https://cdn-icons-png.flaticon.com/512/69/69524.png" width="24" /> -->
-            <span>Sigh Up</span>
-          </a>
-          <a href="/login" class="nav-item">
-            <!-- <img src="https://cdn-icons-png.flaticon.com/512/69/69524.png" width="24" /> -->
-            <span>Log In!</span>
-            <!-- <div class="new-badge">NEW</div> -->
-          </a>
-          <% } %>
-          <% if(currUser) { %> 
-          <a href="/logout" class="nav-item">
-            <!-- <img src="https://cdn-icons-png.flaticon.com/512/69/69524.png" width="24" />/ -->
-            <span>Log Out!</span>
-            <!-- <div class="new-badge">NEW</div> -->
-          </a>
-          <% } %>
-        </div>
-
-        <!-- Right icons -->
-        <a href="/listing/new" style="text-decoration: none">
-          <div class="right-icons">
-            <span style="font-size: 14px">Become a host</span>
-            <div class="icon-button">🌐</div>
-            <div class="icon-button">☰</div>
-          </div>
-        </a>
-      </div>
-
+    <%- include('../boilerplate/navbar') %>
       <!-- Search Bar -->
       <div class="search-bar">
         <div class="search-section">
