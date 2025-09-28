@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require("express")
 const router = express.Router();
 const wrapAsync = require("../utilits/wrapAsync.js")
@@ -5,7 +7,10 @@ const ExpressError = require("../utilits/ExpressError.js");
 const Listing = require("../models/listing.js")
 const listingSchema = require("../Schema.js")
 const { isLoggedIn, isOwner } = require("../middleware.js")
-const { listingController } = require("../controllers/listing.js")
+const { newForm, newlistingadd, index, info, editInfo, deleteInfo, updateInfo } = require("../controllers/listing.js")
+const multer = require('multer')
+const { storage } = require("../cloudConfig.js")
+const upload = multer({ storage })
 
 const validateListing = (req, res, next) => {
   let errMsg = listingSchema.validate(req.body);
@@ -18,62 +23,30 @@ const validateListing = (req, res, next) => {
 }
 
 
+router.route("/")
+  .get(wrapAsync(index))
+  .post(upload.single('listing[url]'),validateListing,wrapAsync(newlistingadd))
+  // .post(upload.single('listing[url]'), (req, res) => {
+  //   res.send(req.file)
+  // })
+// router.post("/", validateListing, wrapAsync(newlistingadd))
 
-router.get("/new", isLoggedIn, (req, res) => {
-  res.render("listing/new.ejs")
-})
+// router.get("/", wrapAsync(index))
 
-router.post("/", validateListing, wrapAsync(async (req, res) => {
-  // if(!req.body.listing) {throw new ExpressError(400, "send valid data")}
-  // let result = listingSchema.validate(req.body);
-  // if(result.error) {
-  //   throw new ExpressError(404, result.error)
-  // }
-  // console.log(result);
-  const newListing = new Listing(req.body.listing);
-  newListing.owner = req.user._id;
-  console.log(newListing);
-  await newListing.save();
-  req.flash("success", "Listing created successfully")
-  res.redirect("/listing")
-}))
-
-router.get("/", wrapAsync(async (req, res) => {
-  let allListing = await Listing.find({});
-  res.render("listing/index.ejs", { allListing })
-}))
-
-router.get("/:id", wrapAsync(async (req, res) => {
-  let { id } = req.params;
-  let info = await Listing.findById(id)
-    .populate({
-      path: 'review',
-      populate: { path: 'author', model: 'User' }
-    })
-    .populate('owner');
-  console.log(info)
-  res.render("listing/info.ejs", { info })
-}))
-
-router.get("/:id/edit", wrapAsync(async (req, res) => {
-  let { id } = req.params;
-  let info = await Listing.findById(id);
-  res.render("listing/edit.ejs", { info });
-}))
-
-router.patch("/:id", isLoggedIn, isOwner, validateListing, wrapAsync(async (req, res) => {
-  let { id } = req.params;
-  await Listing.findByIdAndUpdate(id, { ...req.body.listing })
-  req.flash("success", "You have persion to edit")
-  res.redirect("/listing")
-}))
+router.get("/new", isLoggedIn, newForm)
 
 
-router.delete("/:id", wrapAsync(async (req, res) => {
-  let { id } = req.params;
-  await Listing.findByIdAndDelete(id)
-  req.flash("success", "listing deleted successfully")
-  res.redirect("/listing")
-}))
+router.get("/:id/edit", wrapAsync(editInfo))
+
+router.route("/:id")
+  .get(wrapAsync(info))
+  .patch(isLoggedIn, isOwner,upload.single('listing[url]'), validateListing, wrapAsync(updateInfo))
+  .delete(wrapAsync(deleteInfo))
+
+// router.get("/:id", wrapAsync(info))
+
+// router.patch("/:id", isLoggedIn, isOwner, validateListing, wrapAsync(updateInfo))
+
+// router.delete("/:id", wrapAsync(deleteInfo))
 
 module.exports = router;

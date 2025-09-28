@@ -8,12 +8,13 @@
 <body style="background: #f7f7fa; font-family: 'Segoe UI', Arial, sans-serif; margin: 0;">
     <div style="max-width: 480px; margin: 40px auto; background: #fff; border-radius: 16px; box-shadow: 0 4px 24px rgba(0,0,0,0.08); padding: 32px;">
         <h1 style="text-align:center; color:#333; margin-bottom: 32px; font-weight:600;">Edit Listing</h1>
-        <form action="/listing/<%= info._id %>?_method=PATCH" method="post">
+        <form action="/listing/<%= info._id %>?_method=PATCH" method="post" enctype="multipart/form-data">
             <label style="display:block; margin-bottom:10px; color:#555; font-weight:500;">Title</label>
             <input type="text" value="<%= info.title %>" name="listing[title]" style="width:100%; padding:10px 14px; border:1px solid #ddd; border-radius:8px; margin-bottom:18px; font-size:16px;">
 
-            <label style="display:block; margin-bottom:10px; color:#555; font-weight:500;">Image</label>
-            <input type="text" value="<%= info.url %>" name="listing[url]" style="width:100%; padding:10px 14px; border:1px solid #ddd; border-radius:8px; margin-bottom:18px; font-size:16px;">
+            <img src="<%= orginalImg %>" width="100px" alt="">
+            <label style="display:block; margin-bottom:10px; color:#555; font-weight:500;">New Image</label>
+            <input type="file" name="listing[url]" style="width:100%; padding:10px 14px; border:1px solid #ddd; border-radius:8px; margin-bottom:18px; font-size:16px;">
 
             <label style="display:block; margin-bottom:10px; color:#555; font-weight:500;">Description</label>
             <textarea name="listing[description]" style="width:100%; padding:10px 14px; border:1px solid #ddd; border-radius:8px; margin-bottom:18px; font-size:16px; min-height:80px;"><%= info.description %></textarea>

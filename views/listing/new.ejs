@@ -113,7 +113,7 @@
 <body>
   <div class="main-wrapper">
     <div class="form-container">
-      <form action="/listing" method="post" class="needs-validation" novalidate>
+      <form action="/listing" method="post" class="needs-validation" novalidate enctype="multipart/form-data">
         <div class="mb-2">
           <label for="title" class="form-label">Title</label>
           <input type="text" class="form-control" id="title" name="listing[title]" required>
@@ -126,9 +126,15 @@
           <div class="invalid-feedback">Please provide a description.</div>
         </div>
 
-        <div class="mb-2">
+        <!-- <div class="mb-2">
           <label for="img" class="form-label">Image Link</label>
           <input type="url" class="form-control" id="img" name="listing[url]">
+          <div class="invalid-feedback">Please enter a valid image URL.</div>
+        </div> -->
+
+        <div class="mb-2">
+          <label for="img" class="form-label">Image Link</label>
+          <input type="file" class="form-control" id="img" name="listing[url]">
           <div class="invalid-feedback">Please enter a valid image URL.</div>
         </div>
 
