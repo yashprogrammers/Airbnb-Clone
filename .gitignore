@@ -1,18 +1,6 @@
 # Node modules
 node_modules/
 
-# Build outputs
-dist/
-build/
+.env
 
-# Logs
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# OS specific
-.DS_Store
-Thumbs.db
-
-# Binaries
 *.exe
